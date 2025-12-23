@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrazione Candidato</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="lang-selector">
+  <button class="lang-btn active" data-lang="it" onclick="changeLanguage('it')">IT</button>
+  <button class="lang-btn" data-lang="en" onclick="changeLanguage('en')">EN</button>
+  <button class="lang-btn" data-lang="es" onclick="changeLanguage('es')">ES</button>
+</div>
+
+<section>
+  <h2 data-i18n="register_title">Registrazione Candidato</h2>
+  <p data-i18n="register_subtitle">Inserisci i tuoi dati prima di cercare opportunità di lavoro</p>
+
+  <form id="registerForm">
+    <label for="name" data-i18n="name_label">Nome Completo:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="email" data-i18n="email_label">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="phone" data-i18n="phone_label">Telefono:</label><br>
+    <input type="tel" id="phone" name="phone"><br><br>
+
+    <label for="experience" data-i18n="experience_label">Esperienze Lavorative:</label><br>
+    <textarea id="experience" name="experience" rows="6" placeholder="Descrivi le tue esperienze lavorative..." required></textarea><br><br>
+
+    <label for="sector" data-i18n="sector_preference_label">Settore di Interesse:</label><br>
+    <select id="sector" name="sector" required>
+      <option value="">-- Scegli un settore --</option>
+      <option value="Ristorazione">Ristorazione</option>
+      <option value="Turismo">Turismo</option>
+      <option value="Logistica">Logistica</option>
+      <option value="Edilizia">Edilizia</option>
+      <option value="Pulizie">Pulizie</option>
+      <option value="Sanitario">Sanitario</option>
+      <option value="Customer Service">Customer Service</option>
+      <option value="Altro">Altro</option>
+    </select><br><br>
+
+    <button type="submit" data-i18n="continue_btn">Continua alla Ricerca</button>
+  </form>
+</section>
+
+<script src="js/lang.js?v=20250223"></script>
+<script>
+document.getElementById("registerForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const phone = document.getElementById("phone").value;
+  const experience = document.getElementById("experience").value;
+  const sector = document.getElementById("sector").value;
+
+  // Salva i dati nel localStorage
+  const candidate = {
+    name,
+    email,
+    phone,
+    experience,
+    sector,
+    registeredAt: new Date().toISOString()
+  };
+  
+  localStorage.setItem("candidateData", JSON.stringify(candidate));
+  
+  // Reindirizza alla pagina di ricerca
+  window.location.href = "search.html";
+});
+
+// Carica lingua salvata
+let currentLang = localStorage.getItem("lang") || "it";
+loadLanguage(currentLang);
+updateActiveLangButton(currentLang);
+</script>
+
+</body>
+</html>
