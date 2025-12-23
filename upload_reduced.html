@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invio CV Ridotto</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="lang-selector">
+  <button class="lang-btn active" data-lang="it" onclick="changeLanguage('it')">IT</button>
+  <button class="lang-btn" data-lang="en" onclick="changeLanguage('en')">EN</button>
+  <button class="lang-btn" data-lang="es" onclick="changeLanguage('es')">ES</button>
+</div>
+
+<script>
+if (localStorage.getItem("accesso") !== "ok") {
+  window.location.href = "login.html";
+}
+</script>
+
+<section>
+  <h2 data-i18n="upload_cv_title">Invio CV Ridotto</h2>
+
+  <form id="cvForm">
+    <label for="nome" data-i18n="name_label">Nome:</label><br>
+    <input type="text" id="nome" name="nome" required><br><br>
+
+    <label for="esperienze" data-i18n="experience_label">Esperienze Lavorative Rilevanti:</label><br>
+    <textarea id="esperienze" name="esperienze" rows="6" required></textarea><br><br>
+
+    <label for="settore" data-i18n="sector_search_label">Settore cercato:</label><br>
+    <select id="settore" name="settore" required>
+      <option value="Ristorazione">Ristorazione</option>
+      <option value="Turismo">Turismo</option>
+      <option value="Logistica">Logistica</option>
+      <option value="Edilizia">Edilizia</option>
+      <option value="Pulizie">Pulizie</option>
+      <option value="Sanitario">Sanitario</option>
+      <option value="Customer Service">Customer Service</option>
+      <option value="Altro">Altro</option>
+    </select><br><br>
+
+    <button type="submit" data-i18n="submit_btn">Invia CV Ridotto</button>
+  </form>
+</section>
+
+<script src="js/lang.js"></script>
+<script>
+document.getElementById("cvForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const nome = document.getElementById("nome").value;
+  const esperienze = document.getElementById("esperienze").value;
+  const settore = document.getElementById("settore").value;
+
+  console.log({nome, esperienze, settore});
+  alert("CV ridotto inviato! (simulazione)");
+
+  e.target.reset();
+});
+
+// Carica lingua salvata
+let currentLang = localStorage.getItem("lang") || "it";
+loadLanguage(currentLang);
+updateActiveLangButton(currentLang);
+</script>
+
+</body>
+</html>

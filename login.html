@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accesso Collaboratori</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="lang-selector">
+  <button class="lang-btn active" data-lang="it" onclick="changeLanguage('it')">IT</button>
+  <button class="lang-btn" data-lang="en" onclick="changeLanguage('en')">EN</button>
+  <button class="lang-btn" data-lang="es" onclick="changeLanguage('es')">ES</button>
+</div>
+
+<section>
+  <h2 data-i18n="login_title">Accesso riservato ai collaboratori</h2>
+
+  <form id="loginForm">
+    <label for="password" data-i18n="password_placeholder">Inserisci password:</label><br>
+    <input type="password" id="password" placeholder="" required><br><br>
+    <button type="submit" data-i18n="enter_btn">Entra</button>
+  </form>
+</section>
+
+<script src="js/lang.js"></script>
+<script>
+const correctPassword = "collaboratori123";
+
+document.getElementById("loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const passwordInput = document.getElementById("password").value;
+
+  if(passwordInput === correctPassword){
+    localStorage.setItem("accesso", "ok");
+    alert("Accesso riuscito!");
+    window.location.href = "index.html";
+  } else {
+    alert("Password errata!");
+  }
+});
+
+// Carica lingua salvata
+let currentLang = localStorage.getItem("lang") || "it";
+loadLanguage(currentLang);
+updateActiveLangButton(currentLang);
+</script>
+
+</body>
+</html>

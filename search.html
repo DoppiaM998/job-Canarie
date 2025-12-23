@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ricerca Offerte</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="lang-selector">
+  <button class="lang-btn active" data-lang="it" onclick="changeLanguage('it')">IT</button>
+  <button class="lang-btn" data-lang="en" onclick="changeLanguage('en')">EN</button>
+  <button class="lang-btn" data-lang="es" onclick="changeLanguage('es')">ES</button>
+</div>
+
+<section>
+  <h2 data-i18n="search_title">Ricerca Offerte di Lavoro</h2>
+
+  <form id="searchForm">
+    <div class="search-grid">
+      <div class="search-group">
+        <label for="country" data-i18n="country_label">Scegli il Paese:</label>
+        <select id="country" name="country">
+          <option value="">-- Tutti i Paesi --</option>
+        </select>
+      </div>
+
+      <div class="search-group">
+        <label for="sector" data-i18n="sector_label">Scegli il Settore:</label>
+        <select id="sector" name="sector">
+          <option value="">-- Tutti i Settori --</option>
+        </select>
+      </div>
+
+      <div class="search-group">
+        <label for="zone" data-i18n="zone_label">Scegli la Zona:</label>
+        <select id="zone" name="zone">
+          <option value="">-- Tutte le Zone --</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="btn" data-i18n="search_btn">Cerca</button>
+  </form>
+</section>
+
+<script src="js/lang.js"></script>
+<script src="js/data.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  populateCountries();
+  populateSectors();
+  
+  const countrySelect = document.getElementById('country');
+  countrySelect.addEventListener('change', populateZones);
+
+  document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const country = document.getElementById('country').value;
+    const sector = document.getElementById('sector').value;
+    const zone = document.getElementById('zone').value;
+
+    const params = new URLSearchParams();
+    if (country) params.append('country', country);
+    if (sector) params.append('sector', sector);
+    if (zone) params.append('zone', zone);
+
+    window.location.href = 'results.html?' + params.toString();
+  });
+
+  // Carica lingua salvata
+  let currentLang = localStorage.getItem("lang") || "it";
+  loadLanguage(currentLang);
+  updateActiveLangButton(currentLang);
+});
+
+function populateCountries() {
+  const select = document.getElementById('country');
+  countries.forEach(country => {
+    const option = document.createElement('option');
+    option.value = country;
+    option.textContent = country;
+    select.appendChild(option);
+  });
+}
+
+function populateSectors() {
+  const select = document.getElementById('sector');
+  sectors.forEach(sector => {
+    const option = document.createElement('option');
+    option.value = sector;
+    option.textContent = sector;
+    select.appendChild(option);
+  });
+}
+
+function populateZones() {
+  const countrySelect = document.getElementById('country');
+  const zoneSelect = document.getElementById('zone');
+  const selectedCountry = countrySelect.value;
+
+  // Pulisci le zone precedenti
+  zoneSelect.innerHTML = '<option value="">-- Tutte le Zone --</option>';
+
+  if (selectedCountry && zones[selectedCountry]) {
+    zones[selectedCountry].forEach(zone => {
+      const option = document.createElement('option');
+      option.value = zone;
+      option.textContent = zone;
+      zoneSelect.appendChild(option);
+    });
+  }
+}
+</script>
+
+</body>
+</html>

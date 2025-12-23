@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Risultati Ricerca</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="lang-selector">
+  <button class="lang-btn active" data-lang="it" onclick="changeLanguage('it')">IT</button>
+  <button class="lang-btn" data-lang="en" onclick="changeLanguage('en')">EN</button>
+  <button class="lang-btn" data-lang="es" onclick="changeLanguage('es')">ES</button>
+</div>
+
+<section>
+  <h2 data-i18n="results_title">Risultati della Ricerca</h2>
+  <a href="search.html" class="btn">← Torna alla Ricerca</a>
+  <div id="results"></div>
+</section>
+
+<script src="js/lang.js"></script>
+<script src="js/data.js"></script>
+<script src="js/results.js"></script>
+
+<script>
+// Carica lingua salvata
+let currentLang = localStorage.getItem("lang") || "it";
+loadLanguage(currentLang);
+updateActiveLangButton(currentLang);
+</script>
+
+</body>
+</html>
