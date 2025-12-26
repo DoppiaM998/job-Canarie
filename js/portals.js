@@ -123,37 +123,87 @@ const jobPortals = {
 
 // Funzione per ottenere i portali di lavoro per un paese, settore e zona
 function getJobPortals(country, sector, zone) {
-  if (jobPortals[country] && jobPortals[country][zone] && jobPortals[country][zone][sector]) {
-    return jobPortals[country][zone][sector];
-  }
-  
-  // Portali generici come fallback basati sulla zona e settore
+  // Mappatura traduzioni per ricerche dirette
+  const sectorTranslations = {
+    "it": {
+      "Ristorazione": "Ristorazione Gastronomia",
+      "Turismo": "Turismo Hotel",
+      "Logistica": "Logistica Magazzino",
+      "Edilizia": "Edilizia Costruzioni",
+      "Pulizie e Igienizzazione": "Pulizie Igienizzazione",
+      "Sanitario": "Sanitario Infermiere",
+      "Customer Service": "Customer Service Assistenza"
+    },
+    "de": {
+      "Ristorazione": "Gastronomie Restaurant",
+      "Turismo": "Tourismus Hotel",
+      "Logistica": "Logistik Lager",
+      "Edilizia": "Baugewerbe Konstruktion",
+      "Pulizie e Igienizzazione": "Reinigung Gebaeudereinigung",
+      "Sanitario": "Pflege Gesundheit",
+      "Customer Service": "Kundenservice"
+    },
+    "nl": {
+      "Ristorazione": "Horeca Restaurant",
+      "Turismo": "Toerisme Hotel",
+      "Logistica": "Logistiek Magazijn",
+      "Edilizia": "Bouw Constructie",
+      "Pulizie e Igienizzazione": "Schoonmaak",
+      "Sanitario": "Gezondheidszorg",
+      "Customer Service": "Klantenservice"
+    },
+    "es": {
+      "Ristorazione": "Restauracion Gastronomia",
+      "Turismo": "Turismo Hotel",
+      "Logistica": "Logistica Almacen",
+      "Edilizia": "Construccion Edificacion",
+      "Pulizie e Igienizzazione": "Limpieza Higienizacion",
+      "Sanitario": "Sanitario Enfermeria",
+      "Customer Service": "Atencion al Cliente"
+    }
+  };
+
   const cityMap = {
     "Germania": { "Nord": "Hamburg", "Centro": "Frankfurt", "Sud": "Munich" },
-    "Portogallo": { "Nord": "Porto", "Centro": "Lisbon", "Sud": "Faro" },
+    "Austria": { "Nord / Centro": "Vienna", "Ovest / Sud": "Salzburg" },
     "Olanda": { "Nord": "Groningen", "Centro": "Amsterdam", "Sud": "Rotterdam" },
     "Belgio": { "Nord (Fiandre)": "Brussels", "Sud (Vallonia)": "Liege" },
-    "Austria": { "Nord / Centro": "Vienna", "Ovest / Sud": "Salzburg" },
-    "Svezia": { "Nord": "Umea", "Centro": "Stockholm", "Sud": "Gothenburg" },
     "Svizzera": { "Nord": "Zurich", "Centro": "Zug", "Sud": "Geneva" }
   };
 
   const city = (cityMap[country] && cityMap[country][zone]) || country;
   
-  // Dominio per nazione
-  const domains = {
-    "Germania": "de",
-    "Austria": "at",
-    "Olanda": "nl",
-    "Belgio": "be",
-    "Svizzera": "ch",
-    "Portogallo": "pt",
-    "Svezia": "se"
+  // Dominio e Lingua per nazione
+  const config = {
+    "Germania": { dom: "de", lang: "de" },
+    "Austria": { dom: "at", lang: "de" },
+    "Olanda": { dom: "nl", lang: "nl" },
+    "Belgio": { dom: "be", lang: "nl" },
+    "Svizzera": { dom: "ch", lang: "de" },
+    "Portogallo": { dom: "pt", lang: "pt" }
   };
-  const dom = domains[country] || "com";
+  
+  const c = config[country] || { dom: "com", lang: "en" };
+  const searchTerm = (sectorTranslations[c.lang] && sectorTranslations[c.lang][sector]) || sector;
+  const encodedSearch = encodeURIComponent(searchTerm);
+  const encodedCity = encodeURIComponent(city);
 
   return [
-    { name: `LinkedIn Jobs (${city})`, url: `https://www.linkedin.com/jobs/search/?keywords=${sector}&location=${city}` },
-    { name: `Indeed (${city})`, url: `https://${dom === "nl" ? "www.indeed.nl" : "de.indeed.com"}/jobs?q=${sector}&l=${city}&radius=15` }
+    { 
+      name: `Google Jobs (${city})`, 
+      url: `https://www.google.com/search?q=jobs+${encodedSearch}+in+${encodedCity}` 
+    },
+    { 
+      name: `Indeed Direct (${city})`, 
+      url: `https://${c.dom === "nl" ? "www.indeed.nl" : "de.indeed.com"}/jobs?q=${encodedSearch}&l=${encodedCity}&radius=15` 
+    },
+    { 
+      name: `LinkedIn Direct (${city})`, 
+      url: `https://www.linkedin.com/jobs/search/?keywords=${encodedSearch}&location=${encodedCity}` 
+    },
+    { 
+      name: `StepStone (${city})`, 
+      url: `https://www.stepstone.${c.dom === "at" ? "at" : "de"}/jobs/${encodedSearch}/in-${encodedCity}` 
+    }
   ];
 }

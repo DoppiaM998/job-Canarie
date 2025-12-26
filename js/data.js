@@ -57,7 +57,7 @@ const jobData = [
 
 const countries = ["Germania", "Portogallo", "Olanda", "Belgio", "Austria", "Svezia", "Svizzera"];
 
-const sectors = ["Ristorazione", "Turismo", "Logistica", "Edilizia", "Pulizie", "Sanitario", "Customer Service", "Altro"];
+const sectors = ["Ristorazione", "Turismo", "Logistica", "Edilizia", "Pulizie e Igienizzazione", "Sanitario", "Customer Service", "Altro"];
 
 const zones = {
   "Germania": ["Nord", "Centro", "Sud"],

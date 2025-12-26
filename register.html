@@ -31,19 +31,6 @@
     <label for="experience" data-i18n="experience_label">Esperienze Lavorative:</label><br>
     <textarea id="experience" name="experience" rows="6" placeholder="Descrivi le tue esperienze lavorative..." required></textarea><br><br>
 
-    <label for="sector" data-i18n="sector_preference_label">Settore di Interesse:</label><br>
-    <select id="sector" name="sector" required>
-      <option value="">-- Scegli un settore --</option>
-      <option value="Ristorazione">Ristorazione</option>
-      <option value="Turismo">Turismo</option>
-      <option value="Logistica">Logistica</option>
-      <option value="Edilizia">Edilizia</option>
-      <option value="Pulizie">Pulizie</option>
-      <option value="Sanitario">Sanitario</option>
-      <option value="Customer Service">Customer Service</option>
-      <option value="Altro">Altro</option>
-    </select><br><br>
-
     <button type="submit" data-i18n="continue_btn">Continua alla Ricerca</button>
   </form>
 </section>
@@ -65,7 +52,6 @@ document.getElementById("registerForm").addEventListener("submit", function(e){
   const email = document.getElementById("email").value;
   const phone = document.getElementById("phone").value;
   const experience = document.getElementById("experience").value;
-  const sector = document.getElementById("sector").value;
 
   // Salva i dati nel localStorage
   const candidate = {
@@ -73,7 +59,6 @@ document.getElementById("registerForm").addEventListener("submit", function(e){
     email,
     phone,
     experience,
-    sector,
     registeredAt: new Date().toISOString()
   };
   
