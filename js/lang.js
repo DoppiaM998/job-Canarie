@@ -1,8 +1,5 @@
 const translations = {
   it: {
-    login_title: "Accesso riservato ai collaboratori",
-    password_placeholder: "Inserisci password:",
-    enter_btn: "Entra",
     register_title: "Registrazione Candidato",
     register_subtitle: "Inserisci i tuoi dati e genera il tuo CV PDF",
     email_label: "Email:",

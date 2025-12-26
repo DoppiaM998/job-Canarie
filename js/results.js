@@ -29,7 +29,7 @@ function displayResults(results, country, sector, zone) {
       <p><strong>Settore:</strong> <span class="badge">${job.sector}</span></p>
       <p>${job.description}</p>
       <p><strong style="color: #667eea;">${job.salary}</strong></p>
-      <a href="upload_reduced.html" class="btn">Candidati</a>
+      <button onclick="openCVModal('#')" class="btn" data-i18n="apply_here">Candidati qui</button>
     </div>
   `).join('');
 
