@@ -18,7 +18,7 @@
   <div class="header-content">
     <h1>Lavorare in Europa dalle Isole Canarie</h1>
     <p>Trova opportunità affidabili in pochi passaggi</p>
-    <a href="register.html" class="btn">Inizia la Ricerca</a>
+    <a href="search.html" class="btn">Inizia la Ricerca</a>
   </div>
 </header>
 
@@ -35,10 +35,26 @@
 
 <footer>
   <div class="footer-content">
-    <h3 data-i18n="legal_title">INFORMATIVA LEGALE</h3>
-    <div class="legal-text" data-i18n="legal_content"></div>
+    <button class="legal-toggle-btn" onclick="toggleLegal()">
+      <span data-i18n="legal_title">INFORMATIVA LEGALE E CONDIZIONI DEL SERVIZIO</span>
+      <span id="legal-icon">▼</span>
+    </button>
+    <div id="legal-text" class="legal-text" data-i18n="legal_content"></div>
   </div>
 </footer>
+
+<script>
+function toggleLegal() {
+  const text = document.getElementById('legal-text');
+  const icon = document.getElementById('legal-icon');
+  text.classList.toggle('open');
+  icon.textContent = text.classList.contains('open') ? '▲' : '▼';
+}
+// Carica lingua salvata
+let currentLang = localStorage.getItem("lang") || "it";
+loadLanguage(currentLang);
+updateActiveLangButton(currentLang);
+</script>
 
 </body>
 </html>

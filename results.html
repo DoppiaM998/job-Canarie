@@ -20,6 +20,34 @@
   <div id="results"></div>
 </section>
 
+<!-- Modal Registrazione CV -->
+<div id="cvModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeCVModal()">&times;</span>
+    <h2 data-i18n="register_title">Registrazione Candidato</h2>
+    <p data-i18n="register_subtitle">Inserisci i tuoi dati prima di procedere con la candidatura</p>
+    <form id="modalRegisterForm" class="filter-grid">
+      <div class="filter-item">
+        <label for="modal-name" data-i18n="name_label">Nome Completo:</label>
+        <input type="text" id="modal-name" required>
+      </div>
+      <div class="filter-item">
+        <label for="modal-email" data-i18n="email_label">Email:</label>
+        <input type="email" id="modal-email" required>
+      </div>
+      <div class="filter-item">
+        <label for="modal-phone" data-i18n="phone_label">Telefono:</label>
+        <input type="tel" id="modal-phone">
+      </div>
+      <div class="filter-item">
+        <label for="modal-experience" data-i18n="experience_label">Esperienze Lavorative:</label>
+        <textarea id="modal-experience" rows="4" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-search" data-i18n="submit_btn">Invia Candidatura</button>
+    </form>
+  </div>
+</div>
+
 <script src="js/lang.js?v=20250223"></script>
 <script src="js/data.js?v=20250223"></script>
 <script src="js/portals.js?v=20250223"></script>
@@ -27,12 +55,50 @@
 
 <footer>
   <div class="footer-content">
-    <h3 data-i18n="legal_title">INFORMATIVA LEGALE</h3>
-    <div class="legal-text" data-i18n="legal_content"></div>
+    <button class="legal-toggle-btn" onclick="toggleLegal()">
+      <span data-i18n="legal_title">INFORMATIVA LEGALE E CONDIZIONI DEL SERVIZIO</span>
+      <span id="legal-icon">▼</span>
+    </button>
+    <div id="legal-text" class="legal-text" data-i18n="legal_content"></div>
   </div>
 </footer>
 
 <script>
+function toggleLegal() {
+  const text = document.getElementById('legal-text');
+  const icon = document.getElementById('legal-icon');
+  text.classList.toggle('open');
+  icon.textContent = text.classList.contains('open') ? '▲' : '▼';
+}
+
+function openCVModal(targetUrl) {
+  const modal = document.getElementById('cvModal');
+  modal.style.display = "block";
+  modal.dataset.targetUrl = targetUrl;
+}
+
+function closeCVModal() {
+  document.getElementById('cvModal').style.display = "none";
+}
+
+document.getElementById('modalRegisterForm').onsubmit = function(e) {
+  e.preventDefault();
+  const name = document.getElementById('modal-name').value;
+  const email = document.getElementById('modal-email').value;
+  const experience = document.getElementById('modal-experience').value;
+  
+  localStorage.setItem("candidateData", JSON.stringify({ name, email, experience, registeredAt: new Date().toISOString() }));
+  
+  const targetUrl = document.getElementById('cvModal').dataset.targetUrl;
+  closeCVModal();
+  window.open(targetUrl, '_blank');
+};
+
+window.onclick = function(event) {
+  const modal = document.getElementById('cvModal');
+  if (event.target == modal) closeCVModal();
+}
+
 // Carica lingua salvata
 let currentLang = localStorage.getItem("lang") || "it";
 loadLanguage(currentLang);

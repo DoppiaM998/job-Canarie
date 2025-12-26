@@ -188,7 +188,7 @@ function getJobPortals(country, sector, zone) {
   const encodedSearch = encodeURIComponent(searchTerm);
   const encodedCity = encodeURIComponent(city);
 
-  return [
+  const portals = [
     { 
       name: `Google Jobs (${city})`, 
       url: `https://www.google.com/search?q=jobs+${encodedSearch}+in+${encodedCity}` 
@@ -206,4 +206,24 @@ function getJobPortals(country, sector, zone) {
       url: `https://www.stepstone.${c.dom === "at" ? "at" : "de"}/jobs/${encodedSearch}/in-${encodedCity}` 
     }
   ];
+
+  // Aggiunta aziende specifiche per settore e città
+  const specificCompanies = {
+    "Ristorazione": ["Vapiano", "L'Osteria", "Marriott Hotels", "Hilton"],
+    "Logistica": ["DHL", "Amazon Fulfillment", "FedEx", "DB Schenker"],
+    "Edilizia": ["Hochtief", "Bilfinger", "Strabag", "Züblin"],
+    "Sanitario": ["Helios Kliniken", "Asklepios", "Sana Kliniken"],
+    "Pulizie e Igienizzazione": ["Dussmann Service", "Piepenbrock", "Wisag"]
+  };
+
+  if (specificCompanies[sector]) {
+    specificCompanies[sector].forEach(company => {
+      portals.push({
+        name: `${company} Careers (${city})`,
+        url: `https://www.google.com/search?q=${encodeURIComponent(company)}+careers+${encodedCity}+${encodedSearch}`
+      });
+    });
+  }
+
+  return portals;
 }
